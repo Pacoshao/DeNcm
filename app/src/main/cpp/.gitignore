@@ -1,0 +1,9 @@
+*.exe
+ncmdump
+
+.vscode
+.idea
+
+build
+
+cmake-build-*
