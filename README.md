@@ -42,9 +42,7 @@
 - 修复在屏幕旋转或切换到其他应用后 UI 被重置的 bug。
 
 ## 📷应用截图
-![应用截图1](https://github.com/Pacoshao/ncmdump/blob/main/556f35085d315bb5be622a5ccb3db0e.jpg?raw=true "应用截图1")
-![应用截图2](https://github.com/Pacoshao/ncmdump/blob/main/432086a0ccbb674d5eff19ad3d8b1ab.jpg?raw=true "应用截图2")
-![应用截图3](https://github.com/Pacoshao/ncmdump/blob/main/432086a0ccbb674d5eff19ad3d8b1ab.jpg?raw=true "应用截图3")
+![应用截图](https://github.com/Pacoshao/DeNcm/blob/master/screenshot.jpg?raw=true "应用截图")
 
 致敬 [taurusxin](https://github.com/taurusxin) 大佬！👏  
 [原ncmdump项目](https://github.com/taurusxin/ncmdump)
