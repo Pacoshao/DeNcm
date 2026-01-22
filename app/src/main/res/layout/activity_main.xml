@@ -49,13 +49,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <CheckBox
+        android:id="@+id/checkbox_delete_original"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="转换成功后删除原文件"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_selected_output_dir" />
+
+    <CheckBox
+        android:id="@+id/checkbox_delete_converted_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="删除已转换但未删除的原文件"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_delete_original" />
+
+    <CheckBox
+        android:id="@+id/checkbox_overwrite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="覆盖已存在的文件"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_delete_converted_source" />
+
+    <CheckBox
+        android:id="@+id/checkbox_foreground_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="启用通知与后台任务 (防止被杀)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_overwrite" />
+
+    <CheckBox
+        android:id="@+id/checkbox_copy_non_ncm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="同时复制非 NCM 音频文件"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_foreground_service" />
+
     <Button
         android:id="@+id/button_start_conversion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="开始转换"
-        app:layout_constraintTop_toBottomOf="@id/textview_selected_output_dir"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_copy_non_ncm"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -64,7 +107,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="状态：空闲"
+        android:text="空闲"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/button_start_conversion"
         app:layout_constraintStart_toStartOf="parent"

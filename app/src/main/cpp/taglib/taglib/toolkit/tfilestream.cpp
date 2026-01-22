@@ -158,6 +158,27 @@ FileStream::FileStream(FileName fileName, bool openReadOnly)
   }
 }
 
+#ifndef _WIN32
+FileStream::FileStream(int fd, bool openReadOnly)
+  : d(new FileStreamPrivate(""))
+{
+  if (fd != -1) {
+    d->file = fdopen(fd, openReadOnly ? "rb" : "rb+");
+    if (d->file) {
+      d->readOnly = openReadOnly;
+      d->name = FileNameHandle(("/proc/self/fd/" + std::to_string(fd)).c_str());
+    } else {
+      ::close(fd);
+    }
+  }
+
+  if (d->file == InvalidFileHandle)
+  {
+    debug("Could not open file descriptor " + String::number(fd));
+  }
+}
+#endif
+
 FileStream::~FileStream()
 {
   if(isOpen())
@@ -383,6 +404,10 @@ void FileStream::seek(long offset, Position p)
 
 void FileStream::clear()
 {
+  if(!isOpen()) {
+    return;
+  }
+
 #ifdef _WIN32
 
   // NOP
@@ -396,6 +421,10 @@ void FileStream::clear()
 
 long FileStream::tell() const
 {
+  if(!isOpen()) {
+    return 0;
+  }
+
 #ifdef _WIN32
 
   const LARGE_INTEGER zero = {};
@@ -455,6 +484,11 @@ long FileStream::length()
 
 void FileStream::truncate(long length)
 {
+  if(!isOpen()) {
+    debug("FileStream::truncate() -- invalid file.");
+    return;
+  }
+
 #ifdef _WIN32
 
   const long currentPos = tell();

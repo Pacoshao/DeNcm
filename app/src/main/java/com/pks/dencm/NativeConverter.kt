@@ -14,6 +14,10 @@ object NativeConverter {
 
     external fun DumpFileTo(inputFilePath: String, outputCachePath: String): Int // 第二个参数是 cache 目录
 
+    external fun processFdToFd(inputFd: Int, outputFd: Int): Int
+
+    external fun getFormatFromFd(inputFd: Int): String?
+
     /**
      * Finds the actual output file in the cache directory based on the original NCM base name.
      * Assumes C++ creates a file with this base name and some non-NCM extension.
@@ -109,7 +113,6 @@ object NativeConverter {
 
 
         var bestMatch: File? = null
-        var foundWithExtension = false
 
         for (file in files) {
             if (file.isFile) {
@@ -125,17 +128,13 @@ object NativeConverter {
                         // This is a potential match
                         if (currentFileExtension.isNotEmpty()) {
                             // Prefer files with an extension if multiple matches exist
-                            // This logic might need refinement if C++ can output extensionless files
-                            // For now, take the first valid one found with an extension
                             Log.d("FindFile", "Found potential match with extension: ${file.name}")
                             return file // Return the first good match
-                        } else if (!foundWithExtension) {
-                            // If we haven't found one with an extension yet, this is a candidate
+                        } else if (bestMatch == null) {
+                            // Maintain the first match without an extension as a fallback
                             bestMatch = file
                             Log.d("FindFile", "Found potential match without extension: ${file.name}")
                         }
-                    } else {
-                        // Log.d("FindFile", "File base matched but extension '$currentFileExtension' is excluded: ${file.name}")
                     }
                 }
             }

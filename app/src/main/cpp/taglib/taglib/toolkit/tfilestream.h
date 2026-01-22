@@ -54,6 +54,13 @@ namespace TagLib {
      */
     FileStream(FileName file, bool openReadOnly = false);
 
+#ifndef _WIN32
+    /*!
+     * Construct a File object from a file descriptor \a fd.
+     */
+    FileStream(int fd, bool openReadOnly = false);
+#endif
+
     /*!
      * Destroys this FileStream instance.
      */

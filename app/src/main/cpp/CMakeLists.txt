@@ -27,7 +27,7 @@ set_target_properties(ncmdump_lib PROPERTIES OUTPUT_NAME "ncmdump")
 
 target_include_directories(ncmdump_lib PRIVATE src/include)
 
-target_link_libraries(ncmdump_lib tag)
+target_link_libraries(ncmdump_lib tag log)
 target_include_directories(ncmdump_lib PRIVATE taglib)
 target_include_directories(ncmdump_lib PRIVATE taglib/taglib)
 target_include_directories(ncmdump_lib PRIVATE taglib/taglib/toolkit)

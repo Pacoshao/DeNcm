@@ -1,4 +1,5 @@
 #include "libncmdump.h"
+#include "logger.h"
 #include <filesystem>
 #include <jni.h>
 
@@ -28,6 +29,47 @@ extern "C" {
 
     API void DestroyNeteaseCrypt(NeteaseCrypt* neteaseCrypt) {
         delete neteaseCrypt;
+    }
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_com_pks_dencm_NativeConverter_processFdToFd(
+        JNIEnv* env,
+        jobject /* this */,
+        jint inputFd,
+        jint outputFd) {
+
+    try {
+        NeteaseCrypt crypt(inputFd);
+        crypt.Dump(outputFd);
+        crypt.FixMetadata(outputFd);
+        return 0;
+    } catch (const std::exception& e) {
+        LOGE("processFdToFd: exception: %s", e.what());
+        return -1;
+    } catch (...) {
+        LOGE("processFdToFd: unknown exception");
+        return -2;
+    }
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_pks_dencm_NativeConverter_getFormatFromFd(
+        JNIEnv* env,
+        jobject /* this */,
+        jint inputFd) {
+
+    try {
+        NeteaseCrypt crypt(inputFd);
+        std::string format = crypt.getFormat();
+        LOGD("getFormatFromFd: detected format: %s", format.c_str());
+        return env->NewStringUTF(format.c_str());
+    } catch (const std::exception& e) {
+        LOGE("getFormatFromFd: exception: %s", e.what());
+        return nullptr;
+    } catch (...) {
+        LOGE("getFormatFromFd: unknown exception");
+        return nullptr;
     }
 }
 
